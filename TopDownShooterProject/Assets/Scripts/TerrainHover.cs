@@ -11,7 +11,7 @@ public class TerrainHover : MonoBehaviour
         renderer.material = selectedMat;     
         if (Input.GetMouseButtonDown(1))
         {
-            ShootingController.instance.Hovered = gameObject;
+            //ShootingController.instance.Hovered = gameObject;
         }
     }
 

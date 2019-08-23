@@ -6,12 +6,17 @@ public class CameraFollow : MonoBehaviour
 {      
     public GameObject player;
     public float cameraHeight = 8.95f;
-    public float Zdist = -5.75f;
+    public float Zdist = -5.75f;    
 
     void LateUpdate() {
-        Vector3 pos = player.transform.position;
-        pos.z += Zdist;
-        pos.y = cameraHeight;
-        transform.position = pos;
+        if (player != null)
+        {
+            Vector3 pos = player.transform.position;
+            pos.z += Zdist;
+            pos.y = player.transform.position.y + cameraHeight;
+            transform.position = pos;
+        }
+        else
+            player = GameObject.FindGameObjectWithTag("Player");
     }
 }

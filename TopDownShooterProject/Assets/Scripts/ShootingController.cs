@@ -5,27 +5,32 @@ using UnityEngine.AI;
 
 public class ShootingController : MonoBehaviour
 {
-    public LayerMask lm;
+    public LayerMask lm, shootingLayer;
     public float YOffset = .5f;
     public Camera cam;
-    public NavMeshAgent agent;
-    public Animator anim;
-    public GameObject player;
+    public List<NavMeshAgent> agent = new List<NavMeshAgent>();
+    public List<Animator> anim = new List<Animator>();
+    public List<GameObject> player = new List<GameObject>();
     public int ammo;
     public int clipSize;
     public int clips;
     public bool isStopped;
-    public GameObject Hovered;
     public static ShootingController instance;
-    public GameObject ps;
+    public AudioClip reload, shooting;
+    AudioSource audioSource;
     void Awake()
     {
         instance = this;
+        audioSource = GetComponent<AudioSource>();
     }
     void Start()
     {
-        lm = ~lm;    
-        anim.SetTrigger("Movement");    
+        lm = ~lm;  
+        shootingLayer = ~shootingLayer;  
+        foreach (var animationController in anim)
+        {
+            animationController.SetTrigger("Movement"); 
+        }           
     }
     void Update()
     {  
@@ -38,53 +43,69 @@ public class ShootingController : MonoBehaviour
                 case "Ground":
                     if (Input.GetMouseButtonDown(1))
                     {
-                        StopAllCoroutines();                        
-                        agent.SetDestination(hit.point);                        
+                        StopAllCoroutines(); 
+                        foreach (var pAgent in agent)
+                        {
+                            pAgent.SetDestination(hit.point);
+                        }                                               
                         if (isStopped)
                         {
-                            anim.SetTrigger("Movement");
-                            ps.SetActive(false);
+                            foreach (var animationController in anim)
+                            {
+                                animationController.SetTrigger("Movement"); 
+                            }    
                         }
                         isStopped = false;
                     }
                 break;
                 case "Enemy":
                     if (Input.GetMouseButtonDown(1) && !isStopped)
-                    {  
-                        player.transform.LookAt(hit.transform.position, Vector3.up);                    
-                        isStopped = true;
-                        StartCoroutine(Attacking(hit.transform.gameObject));
+                    {  /*
+                        if (Physics.Raycast(player.transform.position, hit.transform.gameObject.transform.position - player.transform.position, out RaycastHit testHit, Mathf.Infinity, shootingLayer))
+                        {
+                            if(testHit.transform.tag == "Enemy")
+                            {                            
+                                player.transform.LookAt(hit.transform.gameObject.transform.position, Vector3.up);                        
+                                isStopped = true;
+                                StartCoroutine(Attacking(hit.transform.gameObject));
+                            }
+                            else
+                            {
+                                agent.SetDestination(hit.point);
+                            }
+                        }
+                        else
+                        {
+                            agent.SetDestination(hit.point);                        
+                        }
+                        */
                     }   
                 break;
             }
         }
-
+        
         if (!isStopped)
         {                     
-            agent.isStopped = false;
-            anim.SetFloat("XVelocity", player.transform.InverseTransformDirection(agent.velocity).x);
-            anim.SetFloat("ZVelocity", player.transform.InverseTransformDirection(agent.velocity).z);
+            //agent.isStopped = false;
+            int i = 0;
+            foreach (var animationController in anim)
+            {
+                animationController.SetFloat("XVelocity", player[i].transform.InverseTransformDirection(agent[i].velocity).x);
+                animationController.SetFloat("ZVelocity", player[i].transform.InverseTransformDirection(agent[i].velocity).z);
+                i++;
+            }    
         }
-        else        
-            agent.isStopped = true; 
-
-        /*
-        if (Hovered != null)
-        {
-            print(agent.velocity);
-            agent.SetDestination(Hovered.transform.position);
-            anim.SetFloat("XVelocity", player.transform.InverseTransformDirection(agent.velocity).x);
-            anim.SetFloat("ZVelocity", player.transform.InverseTransformDirection(agent.velocity).z);
-        }
-        */
+        //else        
+            //agent.isStopped = true; 
     }    
 
     private IEnumerator Attacking(GameObject clicked)
     {
         if (ammo > 0 && clicked.transform.GetComponent<Health>().GetHealth() > 0)
         {       
-            ps.SetActive(true);  
-            anim.SetTrigger("Attacking");
+            audioSource.PlayOneShot(shooting);
+            foreach (var animationController in anim)
+                animationController.SetTrigger("Attacking");
             yield return new WaitForSeconds(.75f);
             ammo-=1;         
             bool dead = clicked.GetComponent<Health>().Damage(25);  
@@ -101,15 +122,18 @@ public class ShootingController : MonoBehaviour
     }
 
     private IEnumerator Reload()
-    {
-        ps.SetActive(false);      
-        anim.SetTrigger("Reloading");
+    {    
+        audioSource.PlayOneShot(reload);
+        foreach (var animationController in anim)
+            animationController.SetTrigger("Reloading");
         yield return new WaitForSeconds(3);
+        foreach (var animationController in anim)
+            animationController.SetTrigger("Movement");
         if (clips > 0)
         {
             clips--;
             ammo = clipSize;
         }
-        isStopped = false;
+        isStopped = false;        
     }
 }
