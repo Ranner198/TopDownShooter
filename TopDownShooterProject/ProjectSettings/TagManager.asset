@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Enemy
   - MoveableLocations
+  - Door
+  - Room
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - MoveableLocations
   - Player
   - Enemy
-  - 
+  - RoomLayer
   - 
   - 
   - 

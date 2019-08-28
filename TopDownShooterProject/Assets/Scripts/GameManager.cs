@@ -45,6 +45,15 @@ public class GameManager : MonoBehaviour
                         }
                     }
                 break;
+                case "Room":
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        foreach(PlayerManager player in friendlies)
+                        {
+                            player.MoveTo(hit.point);
+                        }
+                    }
+                break;
                 case "Enemy":
                     if (Input.GetMouseButtonDown(1))
                     {

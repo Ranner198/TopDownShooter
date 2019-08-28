@@ -111,6 +111,8 @@ public class PlayerManager : MonoBehaviour
                 StartCoroutine(Wait(.75f, go));
             }
         }
+
+        Debug.DrawRay(transform.position, (go.transform.position - transform.position).normalized * 8, Color.red, 2, true);
     }
 
     IEnumerator Wait(float amt, GameObject go)
