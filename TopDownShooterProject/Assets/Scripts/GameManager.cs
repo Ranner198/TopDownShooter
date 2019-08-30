@@ -11,7 +11,14 @@ public class GameManager : MonoBehaviour
     public Camera cam;
     public LayerMask lm;
 
+    public float spawnTimer;
+
     public void Start()
+    {
+        Invoke("SpawnFriendlies", spawnTimer);
+    }
+
+    void SpawnFriendlies()
     {
         for (int i = 0; i < numOfFriendlies; i++)
         {

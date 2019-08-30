@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895662435522216043}
-  m_LocalRotation: {x: 0.46174863, y: -0, z: -0, w: 0.8870109}
+  m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
   m_LocalPosition: {x: 0, y: 8.95, z: -5.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -105,7 +105,8 @@ MonoBehaviour:
   cam: {fileID: 895662435522216041}
   lm:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3891
+  spawnTimer: 14
 --- !u!114 &895662435522216044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,8 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  cameraHeight: 8.95
-  Zdist: -5.75
+  temp: {fileID: 0}
+  cameraHeight: 20
+  Zdist: 0
 --- !u!82 &895662435522216045
 AudioSource:
   m_ObjectHideFlags: 0

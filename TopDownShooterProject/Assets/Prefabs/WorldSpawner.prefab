@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5920387550877158325
 Transform:
   m_ObjectHideFlags: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2eb5f864426d2045b4fd858c4223d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amt: 30
+  amt: 8
   spawnedObjects: []
   spawnPoints: []
   spawnedPositions:
@@ -56,6 +56,8 @@ MonoBehaviour:
   - {x: 49.8, y: 0, z: -166.9}
   - {x: 49.8, y: 0, z: -182.9}
   - {x: 65.8, y: 0, z: -166.9}
+  enemyPrefab: {fileID: 1871326603044320617, guid: 0ab9f44529b45314aaa4db9b69e8557a,
+    type: 3}
   spawnPeice: {fileID: 4116783400128625392, guid: e87104412182e2e44b916c1ed33aa634,
     type: 3}
   runOnAwake: 1
