@@ -6,8 +6,37 @@ public class CameraFollow : MonoBehaviour
 {      
     public GameObject player;
     public GameObject temp;
-    public float cameraHeight = 8.95f;
+    public float cameraHeight = 8.95f, maxHeight = 20, minHeight = 2;
     public float Zdist = -5.75f;    
+
+    public static CameraFollow instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+    public void Resample() 
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+    void Update()
+    {
+        float amt = -Input.mouseScrollDelta.y;
+
+        if (amt > 0 && cameraHeight < maxHeight)
+        {
+            cameraHeight += amt;
+        }
+        else if (amt < 0 && cameraHeight > minHeight)
+        {
+            cameraHeight += amt;
+        }
+
+        if (cameraHeight > maxHeight)
+            cameraHeight = maxHeight;
+        if (cameraHeight < minHeight)
+            cameraHeight = minHeight;
+    }
 
     void LateUpdate() {
         if (player != null)

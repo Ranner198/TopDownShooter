@@ -101,14 +101,14 @@ public class ShootingController : MonoBehaviour
 
     private IEnumerator Attacking(GameObject clicked)
     {
-        if (ammo > 0 && clicked.transform.GetComponent<Health>().GetHealth() > 0)
+        if (ammo > 0 && clicked.transform.GetComponent<PlayerManager>().GetHealth() > 0)
         {       
             audioSource.PlayOneShot(shooting);
             foreach (var animationController in anim)
                 animationController.SetTrigger("Attacking");
             yield return new WaitForSeconds(.75f);
             ammo-=1;         
-            bool dead = clicked.GetComponent<Health>().Damage(25);  
+            bool dead = clicked.GetComponent<PlayerManager>().Damage(25);  
             if (dead)
             {
                 clicked.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Death");

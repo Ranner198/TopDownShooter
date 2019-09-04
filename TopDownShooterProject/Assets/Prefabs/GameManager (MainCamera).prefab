@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 895662435522216040}
   - component: {fileID: 895662435522216047}
   - component: {fileID: 895662435522216044}
+  - component: {fileID: 1941837252699002525}
   - component: {fileID: 895662435522216045}
   m_Layer: 0
   m_Name: GameManager (MainCamera)
@@ -123,6 +124,22 @@ MonoBehaviour:
   temp: {fileID: 0}
   cameraHeight: 20
   Zdist: 0
+--- !u!114 &1941837252699002525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895662435522216043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48fcc185baf897042976c657c800b1dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bright: 1
+  brightness: 2
+  nightvisionShader: {fileID: 4800000, guid: 18cc1df1b4a690d4092fbccb0e09bb11, type: 3}
+  camera: {fileID: 0}
 --- !u!82 &895662435522216045
 AudioSource:
   m_ObjectHideFlags: 0

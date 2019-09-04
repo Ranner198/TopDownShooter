@@ -4,30 +4,46 @@ using UnityEngine;
 
 public class HideCeiling : MonoBehaviour
 {
+    public Renderer rend;
     public Material baseShader, fadeShader;
- 
+    public new bool enabled = true;
     void OnTriggerEnter (Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (enabled && other.gameObject.tag == "Player")
         {
-            GetComponent<Renderer>().material = fadeShader;
+            StopCoroutine("Toggle");
+            StartCoroutine(Toggle(true));
+            enabled = false;
+        }
+    }
+    void OnTriggerExit (Collider other)
+    {
+        if (!enabled && other.gameObject.tag == "Player")
+        {
+            StopCoroutine("Toggle");
+            StartCoroutine(Toggle(false));
+            enabled = true;
         }
     }
 
-    void OnTriggerStay (Collider other)
+    IEnumerator Toggle(bool isEnabled)
     {
-        if (other.gameObject.tag == "Player")
+        float timer = 0;
+        while (timer < 1)
         {
-            GetComponent<Renderer>().material = fadeShader;
+            if (isEnabled)
+                rend.material.Lerp(baseShader, fadeShader, timer);
+            else
+                rend.material.Lerp(fadeShader, baseShader, timer);
+
+            timer += Time.deltaTime/2;
+
+            yield return new WaitForEndOfFrame();
         }
+
+        if (isEnabled)
+            rend.material = fadeShader;
+        else
+            rend.material = baseShader;
     }
-    /*
-    void OnTriggerExit (Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            GetComponent<Renderer>().material = baseShader;
-        }
-    }
-    */
 }

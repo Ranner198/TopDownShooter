@@ -9,9 +9,10 @@ public class PlayerManager : MonoBehaviour
     public Animator anim;
 
     // Player Variables
-    public float health {get; set;}
     public float accuracy {get; set;}    
     public int index {get; set;}
+    public bool dead = false;
+    public int health = 100;
 
     // Gun Logic
     public int ammo {get; set;}
@@ -21,14 +22,17 @@ public class PlayerManager : MonoBehaviour
     public AudioClip shoot, reload, walk;
     public new AudioSource audio;
 
-    // Target for attacking
-    public GameObject Target;
+    // target for attacking
+    public GameObject target;
 
     // State Variables
     public enum State {Passive, Attacking, Reloading};
     public State state;
 
     public LayerMask lm;
+
+    // Private Variables
+    private CapsuleCollider playerCollider;
 
     // Constructor, idk why this is here tbh
     public PlayerManager()
@@ -41,17 +45,8 @@ public class PlayerManager : MonoBehaviour
         state = State.Passive;
         ammo = ammoSize;
         lm = ~lm;        
+        playerCollider = GetComponent<CapsuleCollider>();
     }
-
-    // Destructor, Our player has died
-    public void KillPlayer()
-    {
-        agent.speed = 0;
-        health = 0;
-        gameObject.layer = 2;        
-        anim.SetTrigger("Death");
-    }
-
     // If we are moving and not attacking play the moving animations
     public void Update()
     {
@@ -83,7 +78,7 @@ public class PlayerManager : MonoBehaviour
         state = State.Passive;        
         anim.Play("Blend Tree",-1,Random.Range(0f, 0.99f));
         agent.isStopped = false;
-        Target = null;    
+        target = null;    
         agent.stoppingDistance = 0.15f + index;
     }
 
@@ -96,7 +91,7 @@ public class PlayerManager : MonoBehaviour
             if (hit.transform.tag == "Enemy")
             {
                 agent.isStopped = true;
-                Target = go;
+                target = go;
                 state =  State.Attacking;
                 transform.LookAt(go.transform.position);
                 UpdateAnimationController();
@@ -107,7 +102,7 @@ public class PlayerManager : MonoBehaviour
                 state = State.Passive;        
                 anim.Play("Blend Tree",-1,Random.Range(0f, 0.99f));
                 agent.isStopped = false;
-                Target = null;                    
+                target = null;                    
                 StartCoroutine(Wait(.75f, go));
             }
         }
@@ -118,7 +113,14 @@ public class PlayerManager : MonoBehaviour
     IEnumerator Wait(float amt, GameObject go)
     {
         yield return new WaitForSeconds(amt);
-        Attack(go);
+        if (go.GetComponent<EnemyManager>().dead)
+        {
+            yield break;
+        }
+        else
+        {
+            Attack(go);
+        }
     }
 
     // Reload Method
@@ -139,9 +141,17 @@ public class PlayerManager : MonoBehaviour
         if (ammo > 0)
         {
             audio.PlayOneShot(shoot);
-            if (Target.GetComponent<Health>().Damage(15))
+            try
             {
-                Target = null;
+                if (target.GetComponent<EnemyManager>().Damage(15))
+                {
+                    target = null;
+                    Reload();
+                }
+            }
+            catch(System.Exception)
+            {                
+                target = null;
                 Reload();
             }
         }
@@ -161,10 +171,10 @@ public class PlayerManager : MonoBehaviour
         ammo = ammoSize;
 
         // Are we still attacking?
-        if (Target == null)
+        if (target == null)
             state = State.Passive;
         else
-            Attack(Target);
+            Attack(target);
     }
     // Footstep should occur
     public void Footstep()
@@ -172,5 +182,31 @@ public class PlayerManager : MonoBehaviour
         // Unity is bad so we must only try to run it half the time or the audio will break
         if (Random.Range(0f, 1f) > .75f)
             audio.PlayOneShot(walk);
+    }
+
+    public bool Damage(int amt)
+    {
+        health -= amt;
+        CheckHealth();        
+        return health <= 0;
+    }
+    public void CheckHealth()
+    {
+        if (health <= 0 && !dead)
+        {
+            playerCollider.enabled = false;
+            dead = true;      
+            agent.speed = 0;
+            gameObject.layer = 2;        
+            anim.SetTrigger("Death");   
+            GameManager.instance.friendlies.RemoveAt(index);    
+            gameObject.tag = "Oof";
+            CameraFollow.instance.Resample();        
+            Destroy(this);
+        }
+    }
+    public int GetHealth()
+    {
+        return this.health;
     }
 }

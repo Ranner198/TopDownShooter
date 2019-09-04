@@ -10,6 +10,7 @@ public class SmokeScreen : MonoBehaviour
     private ParticleSystem ps;
     private float inGameTimer;
     private Rigidbody rb;
+    private float startDelay = 3;
     public void Start()
     {
         ps = SmokeEmiter.GetComponent<ParticleSystem>();
@@ -18,11 +19,16 @@ public class SmokeScreen : MonoBehaviour
 
     public void LateUpdate()
     {    
-        if (rb.velocity.magnitude < .1f && !ps.isPlaying)
+        if (rb.velocity.magnitude < .1f && !ps.isPlaying && startDelay <= 0)
         {
             SmokeEmiter.transform.position = transform.position;
             SmokeEmiter.transform.rotation = Quaternion.identity;
             ps.Play();                        
+        }
+
+        if (startDelay > 0)
+        {
+            startDelay -= Time.deltaTime;
         }
 
         if (inGameTimer < timer)
