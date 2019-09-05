@@ -21,19 +21,20 @@ public class PlayerManager : MonoBehaviour
     //Sound
     public AudioClip shoot, reload, walk;
     public new AudioSource audio;
-
-    // target for attacking
-    public GameObject target;
+    public GameObject throwingHand;    
 
     // State Variables
-    public enum State {Passive, Attacking, Reloading};
+    public enum State {Passive, Attacking, Reloading, Throw};
     public State state;
 
     public LayerMask lm;
 
     // Private Variables
     private CapsuleCollider playerCollider;
-
+    // target for attacking
+    private GameObject target;
+    // Gernade reference
+    private GameObject gernade;
     // Constructor, idk why this is here tbh
     public PlayerManager()
     {
@@ -67,6 +68,9 @@ public class PlayerManager : MonoBehaviour
             break;
             case State.Reloading:
                 anim.Play("Reloading",-1,Random.Range(0f, 0.3f));
+            break;
+            case State.Throw:
+                anim.SetTrigger("Throw");
             break;
         }
     }
@@ -109,7 +113,22 @@ public class PlayerManager : MonoBehaviour
 
         Debug.DrawRay(transform.position, (go.transform.position - transform.position).normalized * 8, Color.red, 2, true);
     }
+    public void Throw(Vector3 position, GameObject go)
+    {
+        agent.isStopped = true;
+        state = State.Throw;
+        transform.LookAt(position - transform.position);
 
+        // This is being weird
+        gernade = go.transform.GetChild(1).gameObject;
+
+        // Assign Gernade to hand
+        gernade.transform.position = throwingHand.transform.position;
+        gernade.transform.rotation = throwingHand.transform.rotation;
+        //gernade.transform.SetParent(throwingHand.transform);
+
+        UpdateAnimationController();
+    }
     IEnumerator Wait(float amt, GameObject go)
     {
         yield return new WaitForSeconds(amt);
@@ -182,6 +201,15 @@ public class PlayerManager : MonoBehaviour
         // Unity is bad so we must only try to run it half the time or the audio will break
         if (Random.Range(0f, 1f) > .75f)
             audio.PlayOneShot(walk);
+    }
+    public void ThrowGernade()
+    {
+        //gernade.transform.parent = null;
+        gernade.GetComponent<SmokeScreen>().Huck();
+        gernade = null;
+
+        state = State.Passive;
+        UpdateAnimationController();
     }
 
     public bool Damage(int amt)

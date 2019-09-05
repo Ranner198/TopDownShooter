@@ -570,6 +570,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_1A3 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 194650, guid: 5919c1f5d354f5d48a0b2cfbeeca8208, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 194650, guid: 5919c1f5d354f5d48a0b2cfbeeca8208, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 430194, guid: 5919c1f5d354f5d48a0b2cfbeeca8208, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.76

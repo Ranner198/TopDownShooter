@@ -17,20 +17,19 @@ public class GameManager : MonoBehaviour
     public bool special;
     public enum SpecialType {SmokeGernade};
     public SpecialType specialType;
-
     public GameObject SmokeGernade;
+    public Texture2D position;
+
+    public enum GameMode {Seize, Eliminate, Hostage}
 
     public void Awake()
     {
         instance = this;
+
+        Cursor.SetCursor(position, Vector2.zero, CursorMode.Auto);
     }
 
-    public void Start()
-    {
-        Invoke("SpawnFriendlies", spawnTimer);
-    }
-
-    void SpawnFriendlies()
+    public void SpawnFriendlies()
     {
         for (int i = 0; i < numOfFriendlies; i++)
         {
@@ -76,11 +75,19 @@ public class GameManager : MonoBehaviour
                             switch (specialType)
                             {
                                 case SpecialType.SmokeGernade:
+
                                     special = false;
                                     Vector3 pos = hit.point;
                                     pos.y = 25;
                                     GameObject smoke = Instantiate(SmokeGernade, pos, Quaternion.identity);
+                                    smoke.transform.GetChild(1).GetComponent<SmokeScreen>().Target = hit.point;
+
+                                    int rand = Random.Range(0, friendlies.Count-1);
+                                    
+                                    friendlies[rand].Throw(hit.point, smoke);
+
                                     smoke.name = "Smoke Gernade";
+
                                 break;
                             }
                         }

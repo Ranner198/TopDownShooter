@@ -771,12 +771,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 6558717021866951529}
   anim: {fileID: 8915367447697612731}
+  dead: 0
+  health: 100
   ammoSize: 25
   shoot: {fileID: 8300000, guid: 1e065a3ce35359446ab740e0d117bf66, type: 3}
   reload: {fileID: 8300000, guid: 30dcbcbe8aae0b847a11ad6eedfd4f09, type: 3}
   walk: {fileID: 8300000, guid: dfbb8a63164c37441829f8bb4a9ec9ca, type: 3}
   audio: {fileID: 419102147}
-  Target: {fileID: 0}
+  throwingHand: {fileID: 840495777546950604}
   state: 0
   lm:
     serializedVersion: 2
@@ -3199,11 +3201,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 87.782005
       objectReference: {fileID: 0}
-    - target: {fileID: 1410531467106720, guid: f3a08f7fa6d4104499a3b4e766902099, type: 3}
+    - target: {fileID: 1451707489171158, guid: f3a08f7fa6d4104499a3b4e766902099, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 1451707489171158, guid: f3a08f7fa6d4104499a3b4e766902099, type: 3}
+    - target: {fileID: 1410531467106720, guid: f3a08f7fa6d4104499a3b4e766902099, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}

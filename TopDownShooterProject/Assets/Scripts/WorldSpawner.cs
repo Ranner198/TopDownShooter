@@ -89,7 +89,7 @@ public class WorldSpawner : MonoBehaviour
 
     public void Bake()
     {
-        UnityEditor.AI.NavMeshBuilder.BuildNavMesh(); 
+        //UnityEditor.AI.NavMeshBuilder.BuildNavMesh(); 
 
         SpawnEnenmies();
     }

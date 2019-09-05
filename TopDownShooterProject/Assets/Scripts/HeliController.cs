@@ -6,18 +6,19 @@ public class HeliController : MonoBehaviour
 {
     public GameObject parentObject;
     public List<Waypoints> waypoints = new List<Waypoints>();
-    public float speed;
+    public float duration = 5.0f;
     [Tooltip("The distance the gameObject must be to trigger going to the next position")]
     public float errorDistance;
     public AudioClip flyAway, flyIn;
-    private Rigidbody rb;
     private int index;
     private float timer;
     private AudioSource m_audio;
     private bool leaving;
+    private float minimum = 0.001f;
+    private float maximum = 1.0f;
+    float startTime;
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         m_audio = GetComponent<AudioSource>();
 
         m_audio.PlayOneShot(flyIn);
@@ -26,20 +27,27 @@ public class HeliController : MonoBehaviour
         {
             waypoints[i].index = i;
         }
+
+        startTime = Time.time;
     }
 
     void Update()
     {
+        float t = (Time.time - startTime) / duration;
+
         if (index < waypoints.Count)
         {
             if (errorDistance < Vector3.Distance(transform.position, waypoints[index].GO.transform.position))
-            {
-                rb.AddForce((waypoints[index].GO.transform.position - transform.position).normalized * speed * Time.deltaTime);
+            {                
+                transform.position = Vector3.Lerp(transform.position, waypoints[index].GO.transform.position, Mathf.SmoothStep(minimum, maximum, t));
             }
             else if (timer >= waypoints[index].delay)
-            {
+            {            
+                if (waypoints[index].spawn)
+                    GameManager.instance.SpawnFriendlies();    
                 index++;
-                timer = 0;
+                startTime = Time.time-Time.deltaTime;
+                timer = 0;                
             }
             else if (timer < waypoints[index].delay)
             {
@@ -56,7 +64,7 @@ public class HeliController : MonoBehaviour
             leaving = true;
         }
 
-        transform.rotation = Quaternion.Euler(new Vector3(rb.velocity.z * 1.5f, 180, 0));
+        //transform.rotation = Quaternion.Euler(new Vector3(transform.velocity.z * 1.5f, 180, 0));
     }
 }
 
@@ -66,6 +74,7 @@ public class Waypoints
     public int index;    
     public GameObject GO;
     public float delay;
+    public bool spawn;
 
     public Waypoints(int index, GameObject GO)
     {
@@ -74,6 +83,7 @@ public class Waypoints
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(HeliController))]
 public class HeliControllerGUI : Editor
 {
@@ -106,3 +116,4 @@ public class HeliControllerGUI : Editor
     }
 
 }
+#endif
