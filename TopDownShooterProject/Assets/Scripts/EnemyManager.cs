@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.AI;
+using UnityEngine.UI;
 public class EnemyManager : MonoBehaviour
 {
     // Public Variables
@@ -33,6 +34,9 @@ public class EnemyManager : MonoBehaviour
     // State Variables
     public enum State {Passive, Attacking, Reloading};
     public State state;
+    // UI
+    public Slider healthBar;
+
     // Targets
     public List<GameObject> visibleTargets = new List<GameObject>();
     private GameObject target;
@@ -131,6 +135,7 @@ public class EnemyManager : MonoBehaviour
     public bool Damage(int amt)
     {
         health -= amt;
+        healthBar.value = health;
         CheckHealth();        
         return health <= 0;
     }
@@ -138,10 +143,13 @@ public class EnemyManager : MonoBehaviour
     {
         if (health <= 0 && !dead)
         {
+            print("I died");
             agent.isStopped = true;
             BC.enabled = false;
             dead = true;
-            anim.SetTrigger("Death");      
+            anim.SetTrigger("Death");   
+            GameManager.instance.PopEnenmy(gameObject);
+           healthBar.gameObject.SetActive(false);
             Destroy(this); 
         }
     }

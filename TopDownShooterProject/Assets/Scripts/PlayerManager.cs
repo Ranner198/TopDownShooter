@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class PlayerManager : MonoBehaviour
     public State state;
 
     public LayerMask lm;
+
+    public Slider healthBar;
 
     // Private Variables
     private CapsuleCollider playerCollider;
@@ -91,7 +94,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, (go.transform.position - transform.position).normalized, out RaycastHit hit, Mathf.Infinity, lm))
         {
-            print(hit.transform.name);
             if (hit.transform.tag == "Enemy")
             {
                 agent.isStopped = true;
@@ -132,14 +134,18 @@ public class PlayerManager : MonoBehaviour
     IEnumerator Wait(float amt, GameObject go)
     {
         yield return new WaitForSeconds(amt);
-        if (go.GetComponent<EnemyManager>().dead)
-        {
-            yield break;
+
+        try {            
+            if (go.GetComponent<EnemyManager>().dead)
+            {
+                yield break;
+            }
+            else
+            {
+                Attack(go);
+            }
         }
-        else
-        {
-            Attack(go);
-        }
+        catch (System.Exception) {}
     }
 
     // Reload Method
@@ -215,6 +221,7 @@ public class PlayerManager : MonoBehaviour
     public bool Damage(int amt)
     {
         health -= amt;
+        healthBar.value = health;
         CheckHealth();        
         return health <= 0;
     }
@@ -228,8 +235,9 @@ public class PlayerManager : MonoBehaviour
             gameObject.layer = 2;        
             anim.SetTrigger("Death");   
             GameManager.instance.friendlies.RemoveAt(index);    
-            gameObject.tag = "Oof";
-            CameraFollow.instance.Resample();        
+            gameObject.tag = "Untagged";
+            CameraFollow.instance.Resample();
+            healthBar.gameObject.SetActive(false);
             Destroy(this);
         }
     }

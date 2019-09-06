@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject friendlyPrefab;
     public GameObject SpawnPoint;
     public List<PlayerManager> friendlies = new List<PlayerManager>();
+    public List<GameObject> enemies = new List<GameObject>();
     public Camera cam;
     public LayerMask lm;
     public float spawnTimer;
@@ -19,14 +20,18 @@ public class GameManager : MonoBehaviour
     public SpecialType specialType;
     public GameObject SmokeGernade;
     public Texture2D position;
-
     public enum GameMode {Seize, Eliminate, Hostage}
+    public GameMode gameMode;
+
+    // Game mode specific
+    public GameObject Objective;
+    public bool MissionComplete;
 
     public void Awake()
     {
         instance = this;
 
-        Cursor.SetCursor(position, Vector2.zero, CursorMode.Auto);
+        //Cursor.SetCursor(position, Vector2.zero, CursorMode.Auto);
     }
 
     public void SpawnFriendlies()
@@ -45,11 +50,40 @@ public class GameManager : MonoBehaviour
             friendlies[i].index = i;
         }
     }
+    public void PopEnenmy(GameObject go)
+    {
+        enemies.Remove(go);
 
+        // Come up with a way to do Evac here
+        if (go == Objective)
+        {
+            MissionComplete = true;
+            print("Mission Complete Solider");
+        }
+        else
+        {
+            print("Not it chief");
+        }
+            
+    }
     public void SpawnSmokeGernade()
     {
         special = true;
         specialType = SpecialType.SmokeGernade;
+    }
+
+    // Remove when we swap over to spawning
+    public void Start()
+    {
+        gameMode = GameMode.Eliminate;
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            enemies.Add(enemy);
+        }
+
+        int rand = Random.Range(0, enemies.Count-1);
+
+        Objective = enemies[rand];
     }
 
     public void Update()
