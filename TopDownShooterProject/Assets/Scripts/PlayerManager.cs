@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using static GameManager;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject throwingHand;    
 
     // State Variables
-    public enum State {Passive, Attacking, Reloading, Throw};
+    public enum State {Passive, Attacking, Reloading, Throw, Dead};
     public State state;
 
     public LayerMask lm;
@@ -59,6 +60,27 @@ public class PlayerManager : MonoBehaviour
             anim.SetFloat("XVelocity", anim.gameObject.transform.InverseTransformDirection(agent.velocity).x);
             anim.SetFloat("ZVelocity", anim.gameObject.transform.InverseTransformDirection(agent.velocity).z);
         }
+
+        healthBar.value = health;
+
+        if (health <= 0)
+        {
+            agent.speed = 0;
+            gameObject.layer = 2;     
+            state = State.Dead;
+            if (!dead)
+            {
+                playerCollider.enabled = false;
+                dead = true;          
+                anim.SetTrigger("Death");   
+                GameManager.instance.friendlies.RemoveAt(index);    
+                gameObject.tag = "Untagged";
+                CameraFollow.instance.Resample();
+                healthBar.gameObject.SetActive(false);
+                Destroy(this);
+            }
+        }
+
     }
 
     // Repaint the animations controller
@@ -115,18 +137,26 @@ public class PlayerManager : MonoBehaviour
 
         Debug.DrawRay(transform.position, (go.transform.position - transform.position).normalized * 8, Color.red, 2, true);
     }
-    public void Throw(Vector3 position, GameObject go)
+    public void Throw(Vector3 position, GameObject go, SpecialType specialType)
     {
         agent.isStopped = true;
         state = State.Throw;
         transform.LookAt(position - transform.position);
 
-        // This is being weird
-        gernade = go.transform.GetChild(1).gameObject;
+        switch(specialType)
+        {
+            case SpecialType.SmokeGernade:                
+                gernade = go.transform.GetChild(1).gameObject;
+            break;
+            case SpecialType.Gernade:
+                gernade = go.gameObject;
+            break;
+
+        }
 
         // Assign Gernade to hand
         gernade.transform.position = throwingHand.transform.position;
-        gernade.transform.rotation = throwingHand.transform.rotation;
+        //gernade.transform.rotation = throwingHand.transform.rotation;
         //gernade.transform.SetParent(throwingHand.transform);
 
         UpdateAnimationController();
@@ -211,7 +241,7 @@ public class PlayerManager : MonoBehaviour
     public void ThrowGernade()
     {
         //gernade.transform.parent = null;
-        gernade.GetComponent<SmokeScreen>().Huck();
+        gernade.GetComponent<Throwable>().Huck();
         gernade = null;
 
         state = State.Passive;

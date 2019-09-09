@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
-    public int numOfFriendlies;
-    public GameObject friendlyPrefab;
+    public int numOfFriendlies, numOfEnemies;
+    public GameObject friendlyPrefab, enemyPrefab;
     public GameObject SpawnPoint;
     public List<PlayerManager> friendlies = new List<PlayerManager>();
     public List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> buildings = new List<GameObject>();
     public Camera cam;
     public LayerMask lm;
     public float spawnTimer;
@@ -16,22 +17,45 @@ public class GameManager : MonoBehaviour
     public bool nightVisionEnabled;
     public static GameManager instance;    
     public bool special;
-    public enum SpecialType {SmokeGernade};
+    public enum SpecialType {SmokeGernade, Gernade};
     public SpecialType specialType;
-    public GameObject SmokeGernade;
+    public GameObject SmokeGernade, Gernade;
     public Texture2D position;
     public enum GameMode {Seize, Eliminate, Hostage}
-    public GameMode gameMode;
+    public GameMode gameMode;    
 
     // Game mode specific
     public GameObject Objective;
     public bool MissionComplete;
+
+    // Canvas Elements
+    public GameObject playerCardParent;
+    public GameObject playerCard;
 
     public void Awake()
     {
         instance = this;
 
         //Cursor.SetCursor(position, Vector2.zero, CursorMode.Auto);
+    }
+
+    public void Start()
+    {
+        SpawnEnemies();
+
+        gameMode = GameMode.Eliminate;
+
+        int rand = Random.Range(0, enemies.Count-1);
+
+        Objective = enemies[rand];
+
+        for (int i = 0; i < numOfFriendlies; i++)
+        {
+            GameObject playerCardTemp = GameObject.Instantiate(playerCard, Vector3.zero, Quaternion.identity);
+            
+            playerCardTemp.name = "PlayerCard: " + i;
+            playerCardTemp.transform.SetParent(playerCardParent.transform);
+        }
     }
 
     public void SpawnFriendlies()
@@ -48,6 +72,22 @@ public class GameManager : MonoBehaviour
 
             friendlies.Add(temp.GetComponent<PlayerManager>());            
             friendlies[i].index = i;
+        }
+    }
+
+    public void SpawnEnemies()
+    {
+        for (int i = 0; i < numOfEnemies; i++)
+        {
+            Vector3 SpawnPointPos = buildings[Random.Range(0, buildings.Count-1)].transform.position;
+            // Randomize the positon
+            SpawnPointPos.x += Random.Range(-2, 2);
+            SpawnPointPos.z += Random.Range(-2, 2);
+
+            GameObject temp = Instantiate(enemyPrefab, SpawnPointPos, Quaternion.identity);
+            temp.name = "Enenmy: " + i;
+
+            enemies.Add(temp);                        
         }
     }
     public void PopEnenmy(GameObject go)
@@ -71,19 +111,10 @@ public class GameManager : MonoBehaviour
         special = true;
         specialType = SpecialType.SmokeGernade;
     }
-
-    // Remove when we swap over to spawning
-    public void Start()
+    public void SpawnGernade()
     {
-        gameMode = GameMode.Eliminate;
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            enemies.Add(enemy);
-        }
-
-        int rand = Random.Range(0, enemies.Count-1);
-
-        Objective = enemies[rand];
+        special = true;
+        specialType = SpecialType.Gernade;
     }
 
     public void Update()
@@ -106,21 +137,30 @@ public class GameManager : MonoBehaviour
                         }
                         else
                         {
+                            // Preallocae the data needed
+                            special = false;
+                            Vector3 pos = hit.point;
+                            int rand = Random.Range(0, friendlies.Count-1);
+
                             switch (specialType)
                             {
                                 case SpecialType.SmokeGernade:
-
-                                    special = false;
-                                    Vector3 pos = hit.point;
-                                    pos.y = 25;
                                     GameObject smoke = Instantiate(SmokeGernade, pos, Quaternion.identity);
                                     smoke.transform.GetChild(1).GetComponent<SmokeScreen>().Target = hit.point;
 
-                                    int rand = Random.Range(0, friendlies.Count-1);
-                                    
-                                    friendlies[rand].Throw(hit.point, smoke);
+                                    friendlies[rand].Throw(hit.point, smoke, specialType);
 
                                     smoke.name = "Smoke Gernade";
+
+                                break;
+                                case SpecialType.Gernade:
+
+                                    GameObject gernade = Instantiate(Gernade, pos, Quaternion.identity);
+                                    gernade.GetComponent<Gernade>().Target = hit.point;
+ 
+                                    friendlies[rand].Throw(hit.point, gernade, specialType);
+
+                                    gernade.name = "Smoke Gernade";
 
                                 break;
                             }
@@ -153,7 +193,6 @@ public class GameManager : MonoBehaviour
             nightVisionEnabled = !nightVisionEnabled;
             nightVision.enabled = nightVisionEnabled;
         }
-
         if (Input.GetKeyDown(KeyCode.R))
         {
             foreach (PlayerManager player in friendlies)
@@ -161,6 +200,26 @@ public class GameManager : MonoBehaviour
                 player.state = PlayerManager.State.Reloading;
                 player.UpdateAnimationController();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+            SpawnSmokeGernade();
+        if (Input.GetKeyDown(KeyCode.G))
+            SpawnGernade();                    
+    }
+
+    public void OnTriggerEnter(Collider coll)
+    {
+        if(coll.gameObject.tag == "Enenmy")
+        {
+            coll.gameObject.GetComponent<AudioSource>().volume = .5f;
+        }
+    }
+    
+    public void OnTriggerExit(Collider coll)
+    {
+        if(coll.gameObject.tag == "Enenmy")
+        {
+            coll.gameObject.GetComponent<AudioSource>().volume = 0;
         }
     }
 }

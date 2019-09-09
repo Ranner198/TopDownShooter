@@ -32,11 +32,10 @@ public class EnemyManager : MonoBehaviour
     public LayerMask obstacleMask;
     public LayerMask lm;
     // State Variables
-    public enum State {Passive, Attacking, Reloading};
+    public enum State {Passive, Attacking, Reloading, Dead};
     public State state;
     // UI
     public Slider healthBar;
-
     // Targets
     public List<GameObject> visibleTargets = new List<GameObject>();
     private GameObject target;
@@ -68,8 +67,13 @@ public class EnemyManager : MonoBehaviour
     }
     void Update()
     {
-        anim.SetFloat("XVelocity", anim.gameObject.transform.InverseTransformDirection(agent.velocity).x);
-        anim.SetFloat("ZVelocity", anim.gameObject.transform.InverseTransformDirection(agent.velocity).z);
+        if (!dead)
+        {
+            anim.SetFloat("XVelocity", anim.gameObject.transform.InverseTransformDirection(agent.velocity).x);
+            anim.SetFloat("ZVelocity", anim.gameObject.transform.InverseTransformDirection(agent.velocity).z);
+        }
+        else 
+            state = State.Dead;
     }
     void FindVisibleTargets()
     {   
@@ -168,13 +172,15 @@ public class EnemyManager : MonoBehaviour
             case State.Reloading:
                 anim.Play("Reloading",-1,Random.Range(0f, 0.3f));
             break;
+            case State.Dead:
+
+            break;
         }
     }
      public void Attack(GameObject go)
     {
         if (Physics.Raycast(transform.position, (go.transform.position - transform.position).normalized, out RaycastHit hit, Mathf.Infinity, lm))
         {
-            print(hit.transform.name);
             if (hit.transform.tag == "Player")
             {
                 agent.isStopped = true;
@@ -230,10 +236,16 @@ public class EnemyManager : MonoBehaviour
             audio.PlayOneShot(shoot);
             try 
             {
-                if (target.GetComponent<PlayerManager>().Damage(15))
+                if (Physics.Raycast(transform.position, (target.transform.position - transform.position).normalized, out RaycastHit hit, Mathf.Infinity, lm))
                 {
-                    target = null;
-                    Reload();
+                    if (hit.transform.tag == "Player")
+                    {
+                        if (target.GetComponent<PlayerManager>().Damage(15))
+                        {
+                            target = null;
+                            Reload();
+                        }
+                    }
                 }
             }
             catch(System.Exception)
