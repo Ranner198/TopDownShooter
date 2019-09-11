@@ -26,12 +26,14 @@ public class PlayerManager : MonoBehaviour
     public GameObject throwingHand;    
 
     // State Variables
-    public enum State {Passive, Attacking, Reloading, Throw, Dead};
+    public enum State {Passive, Attacking, Reloading, Throw, Dead, Climbing};
     public State state;
 
     public LayerMask lm;
 
     public Slider healthBar;
+
+    public bool startClimbing;
 
     // Private Variables
     private CapsuleCollider playerCollider;
@@ -51,6 +53,13 @@ public class PlayerManager : MonoBehaviour
         ammo = ammoSize;
         lm = ~lm;        
         playerCollider = GetComponent<CapsuleCollider>();
+
+        if (startClimbing)
+            state = State.Climbing;    
+        else
+            state = State.Passive;            
+        
+        UpdateAnimationController();
     }
     // If we are moving and not attacking play the moving animations
     public void Update()
@@ -81,6 +90,23 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
+        if (state == State.Climbing)
+        {
+            Vector3 floorPos = transform.position;
+            floorPos.y = -2;
+
+            transform.position = Vector3.Lerp(transform.position, floorPos, Time.deltaTime/2);
+
+            if (Physics.Raycast(transform.position + (Vector3.up * 9), Vector3.down, out RaycastHit hit, .5f, lm))
+            {
+                agent.enabled = true;
+                if (hit.transform.tag == "Ground")
+                {
+                    state = State.Passive;
+                    UpdateAnimationController();
+                }
+            }
+        }
     }
 
     // Repaint the animations controller
@@ -96,6 +122,9 @@ public class PlayerManager : MonoBehaviour
             break;
             case State.Throw:
                 anim.SetTrigger("Throw");
+            break;
+            case State.Climbing:
+                anim.SetTrigger("Climbing");
             break;
         }
     }
@@ -151,7 +180,6 @@ public class PlayerManager : MonoBehaviour
             case SpecialType.Gernade:
                 gernade = go.gameObject;
             break;
-
         }
 
         // Assign Gernade to hand
@@ -205,7 +233,10 @@ public class PlayerManager : MonoBehaviour
                 }
             }
             catch(System.Exception)
-            {                
+            {             
+                if (Random.Range(0f, 1f) > .75f)
+                    AudioManger.instance.Play("TargetDown");
+                      
                 target = null;
                 Reload();
             }
@@ -217,6 +248,9 @@ public class PlayerManager : MonoBehaviour
     // Start Reload Sound Effect
     public void ReloadEffect()
     {
+        if (Random.Range(0f, 1f) > .8f)
+            AudioManger.instance.Play("Gernade");
+
         audio.PlayOneShot(reload);
     }
     // We Finished Reloading

@@ -130,6 +130,9 @@ public class GameManager : MonoBehaviour
                     {
                         if (!special)
                         {
+                            if (Random.Range(0f, 1f) > .8f)
+                                AudioManger.instance.Play("MovingOntoObjective");
+
                             foreach(PlayerManager player in friendlies)
                             {
                                 player.MoveTo(hit.point);
@@ -150,8 +153,8 @@ public class GameManager : MonoBehaviour
 
                                     friendlies[rand].Throw(hit.point, smoke, specialType);
 
-                                    smoke.name = "Smoke Gernade";
-
+                                    smoke.name = "Smoke Gernade";                                    
+        
                                 break;
                                 case SpecialType.Gernade:
 
@@ -160,8 +163,7 @@ public class GameManager : MonoBehaviour
  
                                     friendlies[rand].Throw(hit.point, gernade, specialType);
 
-                                    gernade.name = "Smoke Gernade";
-
+                                    gernade.name = "Gernade";                                    
                                 break;
                             }
                         }

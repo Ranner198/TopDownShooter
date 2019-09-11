@@ -13,7 +13,10 @@ public class Gernade : Throwable
     {
         StartCoroutine(BlowUp());
     }
-
+    public override void AudioCallout()
+    {
+        AudioManger.instance.Play("Gernade");
+    }
     IEnumerator BlowUp()
     {
         transform.rotation = Quaternion.Euler(-90, 0, 0);

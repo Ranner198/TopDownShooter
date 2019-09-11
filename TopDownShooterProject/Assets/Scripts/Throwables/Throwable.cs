@@ -13,6 +13,10 @@ public class Throwable : MonoBehaviour
     {
         myTransform = transform;      
     }
+    public virtual void AudioCallout()
+    {
+        
+    }
     public void Huck()
     {
         StartCoroutine(SimulateProjectile());

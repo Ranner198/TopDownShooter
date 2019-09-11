@@ -18,8 +18,10 @@ public class SmokeScreen : Throwable
         ps = SmokeEmiter.GetComponent<ParticleSystem>();
         rb = GetComponent<Rigidbody>();        
     }
-
-
+    public override void AudioCallout()
+    {
+        AudioManger.instance.Play("RequestingEvac");
+    }
     public override void Landed()
     {
         rb.useGravity = true;

@@ -1,0 +1,56 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="RadioChatter_data" version="1.3.0" audacityversion="2.3.1" sel0="0.0000000000" sel1="0.0000000000" vpos="0" h="0.0000000000" zoom="97.3697321044" rate="44100.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags>
+		<tag name="ARTIST" value="Ran Crump"/>
+		<tag name="TITLE" value="Gernade"/>
+		<tag name="YEAR" value="2019"/>
+	</tags>
+	<wavetrack name="Audio Track" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0" colorindex="0"/>
+	<wavetrack name="TV Static sound effect" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="0.056234" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="92239">
+				<waveblock start="0">
+					<simpleblockfile filename="e08085d7.au" len="92239" min="-1.246208" max="1.260385" rms="0.723535"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="TV Static sound effect" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="0.056234" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="92239">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808ba6.au" len="92239" min="-1.246208" max="1.260385" rms="0.723535"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Police_Scanner-ScanMan-1157209815" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="85445">
+				<waveblock start="0">
+					<simpleblockfile filename="e08084c6.au" len="71107" min="-0.740968" max="0.858159" rms="0.102448"/>
+				</waveblock>
+				<waveblock start="71107">
+					<simpleblockfile filename="e0808aa4.au" len="14338" min="-0.873155" max="0.907133" rms="0.237528"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Police_Scanner-ScanMan-1157209815" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="85445">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808774.au" len="71107" min="-0.749262" max="0.867539" rms="0.1035"/>
+				</waveblock>
+				<waveblock start="71107">
+					<simpleblockfile filename="e0808762.au" len="14338" min="-0.883501" max="0.917213" rms="0.239942"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
