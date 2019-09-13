@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -6,19 +6,19 @@ public class HeliController : MonoBehaviour
 {
     public GameObject parentObject;
     public List<Waypoints> waypoints = new List<Waypoints>();
-    public float duration = 5.0f;
+    public List<GameObject> LZRopes = new List<GameObject>();
+    public float speed;
     [Tooltip("The distance the gameObject must be to trigger going to the next position")]
     public float errorDistance;
     public AudioClip flyAway, flyIn;
+    private Rigidbody rb;
     private int index;
     private float timer;
     private AudioSource m_audio;
     private bool leaving;
-    private float minimum = 0.001f;
-    private float maximum = 1.0f;
-    float startTime;
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         m_audio = GetComponent<AudioSource>();
 
         m_audio.PlayOneShot(flyIn);
@@ -27,27 +27,36 @@ public class HeliController : MonoBehaviour
         {
             waypoints[i].index = i;
         }
-
-        startTime = Time.time;
     }
 
     void Update()
     {
-        float t = (Time.time - startTime) / duration;
-
         if (index < waypoints.Count)
         {
             if (errorDistance < Vector3.Distance(transform.position, waypoints[index].GO.transform.position))
-            {                
-                transform.position = Vector3.Lerp(transform.position, waypoints[index].GO.transform.position, Mathf.SmoothStep(minimum, maximum, t));
+            {
+                rb.AddForce((waypoints[index].GO.transform.position - transform.position).normalized * speed * Time.deltaTime);
             }
             else if (timer >= waypoints[index].delay)
-            {            
+            {
                 if (waypoints[index].spawn)
                     GameManager.instance.SpawnFriendlies();    
+                if (waypoints[index].dropRope)
+                {
+                    foreach (GameObject rope in LZRopes)
+                    {
+                        rope.SetActive(true);
+                    }
+                }
+                if (waypoints[index].pullRopeIn)
+                {
+                    foreach (GameObject rope in LZRopes)
+                    {
+                        rope.GetComponent<RopeControllerSimple>().StartWinch();
+                    }
+                }
                 index++;
-                startTime = Time.time-Time.deltaTime;
-                timer = 0;                
+                timer = 0;             
             }
             else if (timer < waypoints[index].delay)
             {
@@ -64,7 +73,7 @@ public class HeliController : MonoBehaviour
             leaving = true;
         }
 
-        //transform.rotation = Quaternion.Euler(new Vector3(transform.velocity.z * 1.5f, 180, 0));
+        transform.rotation = Quaternion.Euler(new Vector3(-rb.velocity.z * 1.5f, 180, 0));
     }
 }
 
@@ -75,6 +84,8 @@ public class Waypoints
     public GameObject GO;
     public float delay;
     public bool spawn;
+    public bool dropRope;
+    public bool pullRopeIn;
 
     public Waypoints(int index, GameObject GO)
     {
@@ -87,7 +98,6 @@ public class Waypoints
 [CustomEditor(typeof(HeliController))]
 public class HeliControllerGUI : Editor
 {
-
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -112,8 +122,6 @@ public class HeliControllerGUI : Editor
             else
                 Debug.Log("Error Parent Cannot be null try assigning it and trying again");
         }
-
     }
-
 }
 #endif
