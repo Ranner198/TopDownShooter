@@ -82,7 +82,7 @@ public class PlayerManager : MonoBehaviour
                 playerCollider.enabled = false;
                 dead = true;          
                 anim.SetTrigger("Death");   
-                GameManager.instance.friendlies.RemoveAt(index);    
+                GameManager.instance.RemovePlayer(index);    
                 gameObject.tag = "Untagged";
                 CameraFollow.instance.Resample();
                 healthBar.gameObject.SetActive(false);
@@ -92,16 +92,17 @@ public class PlayerManager : MonoBehaviour
 
         if (state == State.Climbing)
         {
+            print("bruh");
             Vector3 floorPos = transform.position;
             floorPos.y = -2;
 
             transform.position = Vector3.Lerp(transform.position, floorPos, Time.deltaTime/2);
 
-            if (Physics.Raycast(transform.position + (Vector3.up * 9), Vector3.down, out RaycastHit hit, .5f, lm))
+            if (Physics.Raycast(transform.position + (Vector3.up * 1), Vector3.down, out RaycastHit hit, .5f, lm))
             {
-                agent.enabled = true;
                 if (hit.transform.tag == "Ground")
                 {
+                    agent.enabled = true;
                     state = State.Passive;
                     UpdateAnimationController();
                 }
@@ -131,13 +132,16 @@ public class PlayerManager : MonoBehaviour
 
     // We need to move to the passed location
     public void MoveTo(Vector3 pos)
-    {                
-        agent.SetDestination(pos);    
-        state = State.Passive;        
-        anim.Play("Blend Tree",-1,Random.Range(0f, 0.99f));
-        agent.isStopped = false;
-        target = null;    
-        agent.stoppingDistance = 0.15f + index;
+    {             
+        if (agent.enabled)
+        {
+            agent.SetDestination(pos);    
+            state = State.Passive;        
+            anim.Play("Blend Tree",-1,Random.Range(0f, 0.99f));
+            agent.isStopped = false;
+            target = null;    
+            agent.stoppingDistance = 0.15f + index;
+        }
     }
 
     // Start attacking the passed gameobject if we can see them else go towards them

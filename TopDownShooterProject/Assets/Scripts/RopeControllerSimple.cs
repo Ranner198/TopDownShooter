@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class RopeControllerSimple : MonoBehaviour
 {
     public int numberOfVertices = 3;
@@ -11,31 +10,42 @@ public class RopeControllerSimple : MonoBehaviour
     void Start()
     {        
         lr = GetComponent<LineRenderer>();
-        lr.positionCount = numberOfVertices+2;
+        //lr.positionCount = numberOfVertices+2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        lr.SetPosition(0, Vector3.zero);
+        lr.SetPosition(0, transform.position);
         
+        /*
         if (numberOfVertices > 0)
         {
             for (int i = 1; i < lr.positionCount-2; i++)
             {
-                lr.SetPosition(i, BezierPosition(child.transform.localPosition, transform.position, i/numberOfVertices));
+                
             }
         }
+        */
 
-        lr.SetPosition(lr.positionCount-1, child.transform.localPosition);
+        //lr.SetPosition(1, BezierPosition(child.transform.localPosition, transform.position, .5f));
+
+        //print(BezierPosition(child.transform.localPosition, transform.position, .5f));
+
+        lr.SetPosition(1, child.transform.position);
     }
 
     public void StartWinch()
     {}
 
-    public Vector3 BezierPosition(Vector3 A, Vector3 B, float t)
-    {
-        return (Mathf.Pow(1-t, 2) * A + (2*(1-t))*(t*B) + (t*t)*B);
-    }
+	public static Vector3 BezierPosition (Vector3 A, Vector3 B, float t) {
+
+        Vector3 C = (A + B)/2; // Sample a mid point
+
+		t = Mathf.Clamp01(t);
+		float oneMinusT = 1f - t;
+
+		return oneMinusT * oneMinusT * A + 2f * oneMinusT * t * C + t * t * B;
+	}
 }
 

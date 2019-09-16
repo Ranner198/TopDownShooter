@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {      
-    public GameObject player;
+    public int index;
+    public GameObject[] players;
     public GameObject temp;
     public float cameraHeight = 8.95f, maxHeight = 20, minHeight = 2;
-    public float Zdist = -5.75f;    
-
+    public float Zdist = -5.75f;        
     public static CameraFollow instance;
 
     void Awake()
@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
     }
     public void Resample() 
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        players = GameObject.FindGameObjectsWithTag("Player");
     }
     void Update()
     {
@@ -39,16 +39,16 @@ public class CameraFollow : MonoBehaviour
     }
 
     void LateUpdate() {
-        if (player != null)
+        if (players.Length > 0)
         {        
-            Vector3 pos = player.transform.position;
+            Vector3 pos = players[index].transform.position;
             pos.z += Zdist;
-            pos.y = player.transform.position.y + cameraHeight;
+            pos.y = players[index].transform.position.y + cameraHeight;
             transform.position = pos;
         }
         else
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            players = GameObject.FindGameObjectsWithTag("Player");
             if (temp != null)
             {
                 Vector3 pos = temp.transform.position;
@@ -56,6 +56,21 @@ public class CameraFollow : MonoBehaviour
                 pos.y = temp.transform.position.y + cameraHeight;
                 transform.position = pos;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (index <= players.Length-1)
+                index++;
+            else
+                index = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (index >= 0)
+                index--;
+            else
+                index = 0;
         }
     }
 }

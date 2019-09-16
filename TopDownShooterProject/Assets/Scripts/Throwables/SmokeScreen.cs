@@ -26,6 +26,13 @@ public class SmokeScreen : Throwable
     {
         rb.useGravity = true;
         ps.Play();
+
+        if (GameManager.instance.MissionComplete)
+        {
+            HeliController script = GameManager.instance.evacHeli.GetComponent<HeliController>();
+            AudioManger.instance.Play("LZHot");
+            script.PickUpPlayer(transform.position);
+        }
     }
 
     public void LateUpdate()

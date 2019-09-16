@@ -1296,8 +1296,8 @@ GameObject:
   - component: {fileID: 360743605}
   - component: {fileID: 360743606}
   - component: {fileID: 360743607}
-  m_Layer: 0
-  m_Name: RopeBottom
+  m_Layer: 2
+  m_Name: RopeBottom2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1311,7 +1311,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360743604}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.8000007}
+  m_LocalPosition: {x: 0.24000132, y: -1.4439995, z: -0.13299751}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 709195920}
@@ -1929,8 +1929,8 @@ GameObject:
   - component: {fileID: 486252017}
   - component: {fileID: 486252018}
   - component: {fileID: 486252019}
-  m_Layer: 0
-  m_Name: RopeBottom
+  m_Layer: 2
+  m_Name: RopeBottom1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1944,7 +1944,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 486252016}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.23999941, y: -1.4439995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1122709715}
@@ -2351,13 +2351,13 @@ GameObject:
   - component: {fileID: 709195920}
   - component: {fileID: 709195922}
   - component: {fileID: 709195921}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rope2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &709195920
 Transform:
   m_ObjectHideFlags: 0
@@ -2366,7 +2366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 709195919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.93, y: 1.97, z: -2.48}
+  m_LocalPosition: {x: 1.29, y: 0.037, z: -2.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 360743605}
@@ -2385,7 +2385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bf234b8565d324b9eb84eb6c61ca4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfVertices: 1
+  numberOfVertices: 0
   child: {fileID: 360743604}
 --- !u!120 &709195922
 LineRenderer:
@@ -2426,15 +2426,10 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 57.870003, y: 18.4, z: -90.02}
-  - {x: 173.61002, y: 55.199997, z: -273.66}
-  - {x: 289.35, y: 91.99999, z: -457.30002}
-  - {x: 405.09003, y: 128.8, z: -640.94}
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1.8000007}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -2485,7 +2480,7 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!1001 &712718400
 PrefabInstance:
@@ -3710,8 +3705,8 @@ GameObject:
   - component: {fileID: 1047366890}
   - component: {fileID: 1047366891}
   - component: {fileID: 1047366892}
-  m_Layer: 0
-  m_Name: RopeBottom
+  m_Layer: 2
+  m_Name: RopeBottom4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3725,7 +3720,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047366889}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.8000007}
+  m_LocalPosition: {x: -0.07000053, y: -1.494, z: -0.07999802}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1619607129}
@@ -4105,13 +4100,13 @@ GameObject:
   - component: {fileID: 1122709715}
   - component: {fileID: 1122709716}
   - component: {fileID: 1122709717}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rope1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1122709715
 Transform:
   m_ObjectHideFlags: 0
@@ -4120,7 +4115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122709714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.93, y: 1.97, z: -0.68}
+  m_LocalPosition: {x: 1.29, y: 0.037, z: -0.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 486252017}
@@ -4166,15 +4161,10 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 57.87, y: 18.4, z: -91.82}
-  - {x: 173.61, y: 55.199997, z: -275.46}
-  - {x: 289.35004, y: 91.99999, z: -459.1}
-  - {x: 405.08997, y: 128.8, z: -642.74}
-  - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 3
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -4225,7 +4215,7 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!114 &1122709717
 MonoBehaviour:
@@ -4239,7 +4229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bf234b8565d324b9eb84eb6c61ca4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfVertices: 1
+  numberOfVertices: 0
   child: {fileID: 486252016}
 --- !u!1 &1124038897
 GameObject:
@@ -4517,13 +4507,13 @@ GameObject:
   - component: {fileID: 1143985339}
   - component: {fileID: 1143985341}
   - component: {fileID: 1143985340}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rope3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1143985339
 Transform:
   m_ObjectHideFlags: 0
@@ -4532,7 +4522,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143985338}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.82, y: 1.97, z: -0.68}
+  m_LocalPosition: {x: -1.35, y: 0.107, z: -0.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2114205956}
@@ -4551,7 +4541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bf234b8565d324b9eb84eb6c61ca4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfVertices: 1
+  numberOfVertices: 0
   child: {fileID: 2114205955}
 --- !u!120 &1143985341
 LineRenderer:
@@ -4592,15 +4582,10 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 59.62, y: 18.4, z: -91.82}
-  - {x: 175.36, y: 55.199997, z: -275.46}
-  - {x: 291.10004, y: 91.99999, z: -459.1}
-  - {x: 406.83997, y: 128.8, z: -642.74}
   - {x: 0, y: 0, z: 0}
-  - {x: 1.750001, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -4651,7 +4636,7 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!1 &1161658570 stripped
 GameObject:
@@ -4754,7 +4739,7 @@ GameObject:
   - component: {fileID: 1189752497}
   m_Layer: 0
   m_Name: Terain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4795,6 +4780,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 178968581}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1209429751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209429750}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1209429752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4819,7 +4817,7 @@ MonoBehaviour:
     GO: {fileID: 272631216}
     delay: 3
     spawn: 0
-    dropRope: 1
+    dropRope: 0
     pullRopeIn: 0
   - index: 2
     GO: {fileID: 272631216}
@@ -4832,7 +4830,7 @@ MonoBehaviour:
     delay: 4
     spawn: 0
     dropRope: 0
-    pullRopeIn: 1
+    pullRopeIn: 0
   - index: 3
     GO: {fileID: 2133981342}
     delay: 0
@@ -4854,6 +4852,8 @@ MonoBehaviour:
   errorDistance: 4
   flyAway: {fileID: 8300000, guid: ce03ac69e1892da4cbf1f6b33dc94aae, type: 3}
   flyIn: {fileID: 8300000, guid: 359d51d123325de4a9dd9ce055abd195, type: 3}
+  pickingUp: 0
+  bc: {fileID: 1209429751}
 --- !u!4 &1209429753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400010, guid: 4536ec9fadcf502489e6ab4ee70a62e4,
@@ -6446,13 +6446,13 @@ GameObject:
   - component: {fileID: 1619607129}
   - component: {fileID: 1619607131}
   - component: {fileID: 1619607130}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rope4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1619607129
 Transform:
   m_ObjectHideFlags: 0
@@ -6461,7 +6461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619607128}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.93, y: 1.97, z: -2.48}
+  m_LocalPosition: {x: -1.39, y: 0.157, z: -2.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1047366890}
@@ -6480,7 +6480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bf234b8565d324b9eb84eb6c61ca4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfVertices: 1
+  numberOfVertices: 0
   child: {fileID: 1047366889}
 --- !u!120 &1619607131
 LineRenderer:
@@ -6521,15 +6521,10 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 57.870003, y: 18.4, z: -90.02}
-  - {x: 173.61002, y: 55.199997, z: -273.66}
-  - {x: 289.35, y: 91.99999, z: -457.30002}
-  - {x: 405.09003, y: 128.8, z: -640.94}
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1.8000007}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -6580,7 +6575,7 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!1001 &1627148499
 PrefabInstance:
@@ -8456,6 +8451,11 @@ PrefabInstance:
       propertyPath: playerCardParent
       value: 
       objectReference: {fileID: 1888360223}
+    - target: {fileID: 895662435522216047, guid: 6c648dd458b8f714b97d476f9448ec47,
+        type: 3}
+      propertyPath: evacHeli
+      value: 
+      objectReference: {fileID: 1209429752}
     - target: {fileID: 895662435522216044, guid: 6c648dd458b8f714b97d476f9448ec47,
         type: 3}
       propertyPath: temp
@@ -8671,8 +8671,8 @@ GameObject:
   - component: {fileID: 2114205956}
   - component: {fileID: 2114205957}
   - component: {fileID: 2114205958}
-  m_Layer: 0
-  m_Name: RopeBottom
+  m_Layer: 2
+  m_Name: RopeBottom3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8686,7 +8686,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114205955}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.750001, y: 0, z: 0}
+  m_LocalPosition: {x: -0.12999892, y: -1.4439999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1143985339}

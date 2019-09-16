@@ -32,6 +32,11 @@ public class GameManager : MonoBehaviour
     public GameObject playerCardParent;
     public GameObject playerCard;
 
+    // Evac controllers
+    public HeliController evacHeli;
+    private int timesClicked;
+    public bool readyForEvac;
+
     public void Awake()
     {
         instance = this;
@@ -72,6 +77,43 @@ public class GameManager : MonoBehaviour
 
             friendlies.Add(temp.GetComponent<PlayerManager>());            
             friendlies[i].index = i;
+        }
+    }
+
+    public void RemovePlayer(int index)
+    {
+        int actualIndex = 0;
+        foreach (PlayerManager player in friendlies)
+        {
+            if (index == player.index)
+            {
+                friendlies.RemoveAt(actualIndex);
+                break;
+            }
+
+            actualIndex++;
+        }
+    }
+
+    public void CompelteMission()
+    {        
+        if (friendlies.Count == 0 && !readyForEvac)
+        {
+            readyForEvac = true;
+            evacHeli.GetComponent<HeliController>().enabled = false;            
+            StartCoroutine(TakeOff());
+        }         
+    }
+    IEnumerator TakeOff()
+    {
+        while(true)
+        {
+            print("WQ");
+            Vector3 temp = evacHeli.transform.position;
+            temp -= evacHeli.transform.forward  * Time.deltaTime * 30;
+            temp += evacHeli.transform.up * Time.deltaTime * 10;
+            evacHeli.transform.position = temp;
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -130,7 +172,9 @@ public class GameManager : MonoBehaviour
                     {
                         if (!special)
                         {
-                            if (Random.Range(0f, 1f) > .8f)
+                            timesClicked++;
+
+                            if (timesClicked % 8 == 0)
                                 AudioManger.instance.Play("MovingOntoObjective");
 
                             foreach(PlayerManager player in friendlies)
